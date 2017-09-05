@@ -11,4 +11,19 @@ services:
       - /dockervols/plex/config:/config
       - /dockervols/plex/transcode:/transcode
       - /vol/pangaea/Movies:/data/movies:shared
-      - '/vol/pangaea/TV Shows':/data/tvshows:shared
+      - /vol/pangaea/TV_Shows:/data/tvshows:shared
+  
+  samba:
+    container_name: samba
+    image: dperson/samba
+    restart: unless-stopped
+    ports:
+      - "139:139"
+      - "445:445"
+      - "137:137/udp"
+      - "138:138/udp"
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - /vol/pangaea:/vol/pangaea
+    command: -s "Pangaea;/vol/pangaea;yes;no;yes" -n
