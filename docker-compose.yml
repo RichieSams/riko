@@ -1,0 +1,14 @@
+version: '3'
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+    network_mode: host
+    volumes:
+      - /dockervols/plex/config:/config
+      - /dockervols/plex/transcode:/transcode
+      - /vol/pangaea/Movies:/data/movies:shared
+      - '/vol/pangaea/TV Shows':/data/tvshows:shared
