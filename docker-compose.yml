@@ -27,3 +27,14 @@ services:
     volumes:
       - /vol/pangaea:/vol/pangaea
     command: -s "Pangaea;/vol/pangaea;yes;no;yes" -n
+
+  nfs:
+    container_name: nfs
+    image: itsthenetwork/nfs-server-alpine
+    restart: unless-stopped
+    environment: 
+      - SHARED_DIRECTORY=/nfsshare
+    network_mode: host
+    volumes:
+      - /vol/pangaea:/nfsshare
+    privileged: true
