@@ -32,8 +32,6 @@ services:
     image: grafana/grafana-oss:9.4.0
     container_name: grafana
     restart: unless-stopped
-    depends_on:
-      - influxdb
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
