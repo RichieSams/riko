@@ -46,11 +46,6 @@ services:
     container_name: victoriametrics
     ports:
       - 8428:8428
-      - 8089:8089
-      - 8089:8089/udp
-      - 2003:2003
-      - 2003:2003/udp
-      - 4242:4242
     volumes:
       - /mnt/pangaea/vmdata:/storage
     command:
