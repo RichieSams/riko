@@ -44,6 +44,7 @@ services:
   victoriametrics:
     image: victoriametrics/victoria-metrics:v1.89.1
     container_name: victoriametrics
+    restart: unless-stopped
     ports:
       - 8428:8428
     volumes:
