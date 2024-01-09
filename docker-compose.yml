@@ -52,3 +52,5 @@ services:
     command:
       - "--storageDataPath=/storage"
       - "--httpListenAddr=:8428"
+      - "--retentionPeriod=3y"
+      - "--dedup.minScrapeInterval=1s"
