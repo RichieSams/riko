@@ -54,3 +54,12 @@ services:
       - "--httpListenAddr=:8428"
       - "--retentionPeriod=3y"
       - "--dedup.minScrapeInterval=1s"
+
+  iotawatt_upload_proxy:
+    image: ghcr.io/richiesams/iotawatt_upload_proxy:v0.1.1
+    container_name: iotawatt_upload_proxy
+    restart: unless-stopped
+    ports:
+      - 8888:8888
+    environment:
+      IUP_UPSTREAM: http://192.168.68.107:8428
