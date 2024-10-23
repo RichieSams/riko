@@ -29,13 +29,14 @@ services:
     command: -s "Pangaea;/mnt/pangaea/shared_data;yes;no;yes" -n
 
   grafana:
-    image: grafana/grafana-oss:9.4.0
+    image: grafana/grafana-oss:11.3.0
     container_name: grafana
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=
+      - GF_AUTH_ANONYMOUS_ENABLED=true
     ports:
       - '3000:3000'
     volumes:
