@@ -64,3 +64,18 @@ services:
     environment:
       IUP_UPSTREAM: http://192.168.68.107:8428
       IUP_LOG_LEVEL: info
+
+  speed_test_exporter:
+    image: ghcr.io/richiesams/speedtest-exporter:v0.1.0
+    container_name: speed_test_exporter
+    restart: unless-stopped
+  
+  vmagent:
+    image: victoriametrics/vmagent:v1.105.0
+    container_name: vmagent
+    restart: unless-stopped
+    command:
+      - -promscrape.config=/scrape-config.yaml
+      - -remoteWrite.url=http://victoriametrics:8428/api/v1/write
+    volumes:
+      - ./scrape-config.yaml:/scrape-config.yaml
