@@ -42,7 +42,7 @@ services:
       - /mnt/pangaea/grafana:/var/lib/grafana
 
   victoriametrics:
-    image: victoriametrics/victoria-metrics:v1.89.1
+    image: victoriametrics/victoria-metrics:v1.101.0
     container_name: victoriametrics
     restart: unless-stopped
     ports:
@@ -56,10 +56,11 @@ services:
       - "--dedup.minScrapeInterval=1s"
 
   iotawatt_upload_proxy:
-    image: ghcr.io/richiesams/iotawatt_upload_proxy:v0.1.1
+    image: ghcr.io/richiesams/iotawatt_upload_proxy:v0.2.0
     container_name: iotawatt_upload_proxy
     restart: unless-stopped
     ports:
       - 8888:8888
     environment:
       IUP_UPSTREAM: http://192.168.68.107:8428
+      IUP_LOG_LEVEL: info
