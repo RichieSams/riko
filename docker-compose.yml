@@ -5,13 +5,37 @@ services:
     image: plexinc/pms-docker
     restart: unless-stopped
     environment:
-      - TZ=America/Los_Angeles
+      - TZ=America/New_York
     network_mode: host
     volumes:
       - /dockervols/plex/config:/config
       - /dockervols/plex/transcode:/transcode
-      - /mnt/pangaea/shared_data/Movies:/data/movies:shared
-      - /mnt/pangaea/shared_data/TV_Shows:/data/tvshows:shared
+      - type: bind
+        source: /mnt/pangaea/shared_data/Movies
+        target: /data/movies
+      - type: bind
+        source: /mnt/pangaea/shared_data/TV_Shows
+        target: /data/tvshows
+
+  jellyfin:
+    container_name: jellyfin
+    image: lscr.io/linuxserver/jellyfin:latest
+    restart: unless-stopped
+    environment:
+      - TZ=America/New_York
+      - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
+    network_mode: host
+    volumes:
+      - /mnt/pangaea/jellyfin/config:/config
+      - /mnt/pangaea/jellyfin/cache:/cache
+      - type: bind
+        source: /mnt/pangaea/shared_data/Movies
+        target: /data/movies
+      - type: bind
+        source: /mnt/pangaea/shared_data/TV_Shows
+        target: /data/tvshows
+    devices:
+      - /dev/dri:/dev/dri
 
   samba:
     container_name: samba
@@ -23,9 +47,11 @@ services:
       - "137:137/udp"
       - "138:138/udp"
     environment:
-      - TZ=America/Los_Angeles
+      - TZ=America/New_York
     volumes:
-      - /mnt/pangaea/shared_data:/mnt/pangaea/shared_data
+      - type: bind
+        source: /mnt/pangaea/shared_data
+        target: /mnt/pangaea/shared_data
     command: -s "Pangaea;/mnt/pangaea/shared_data;yes;no;yes" -n
 
   grafana:
