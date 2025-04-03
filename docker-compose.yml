@@ -1,22 +1,5 @@
 version: '3'
 services:
-  plex:
-    container_name: plex
-    image: plexinc/pms-docker
-    restart: unless-stopped
-    environment:
-      - TZ=America/New_York
-    network_mode: host
-    volumes:
-      - /dockervols/plex/config:/config
-      - /dockervols/plex/transcode:/transcode
-      - type: bind
-        source: /mnt/pangaea/shared_data/Movies
-        target: /data/movies
-      - type: bind
-        source: /mnt/pangaea/shared_data/TV_Shows
-        target: /data/tvshows
-
   jellyfin:
     container_name: jellyfin
     image: lscr.io/linuxserver/jellyfin:latest
