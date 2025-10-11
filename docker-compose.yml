@@ -21,7 +21,7 @@ services:
 
   samba:
     container_name: samba
-    image: dperson/samba
+    image: dperson/samba:latest
     restart: unless-stopped
     ports:
       - "139:139"
@@ -46,7 +46,7 @@ services:
       - GF_INSTALL_PLUGINS=
       - GF_AUTH_ANONYMOUS_ENABLED=true
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - /mnt/pangaea/grafana:/var/lib/grafana
 
@@ -71,14 +71,14 @@ services:
     ports:
       - 8888:8888
     environment:
-      IUP_UPSTREAM: http://192.168.68.107:8428
+      IUP_UPSTREAM: http://192.168.68.109:8428
       IUP_LOG_LEVEL: info
 
   speed_test_exporter:
     image: ghcr.io/richiesams/speedtest-exporter:v0.1.0
     container_name: speed_test_exporter
     restart: unless-stopped
-  
+
   vmagent:
     image: victoriametrics/vmagent:v1.105.0
     container_name: vmagent
@@ -94,6 +94,6 @@ services:
     container_name: nebula-sync
     env_file: /mnt/pangaea/nebula/.env
     environment:
-    - FULL_SYNC=true
-    - RUN_GRAVITY=true
-    - CRON=0 * * * *
+      - FULL_SYNC=true
+      - RUN_GRAVITY=true
+      - CRON=0 * * * *
