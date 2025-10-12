@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - TZ=America/New_York
-      - DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel
+      - DOCKER_MODS=linuxserver/mods:jellyfin-amd
     network_mode: host
     volumes:
       - /mnt/pangaea/jellyfin/config:/config
@@ -18,6 +18,7 @@ services:
         target: /data/tvshows
     devices:
       - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
 
   samba:
     container_name: samba
