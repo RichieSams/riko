@@ -6,7 +6,6 @@ services:
     environment:
       - TZ=America/New_York
       - DOCKER_MODS=linuxserver/mods:jellyfin-amd
-    network_mode: host
     volumes:
       - /mnt/pangaea/jellyfin/config:/config
       - /mnt/pangaea/jellyfin/cache:/cache
@@ -46,8 +45,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=
       - GF_AUTH_ANONYMOUS_ENABLED=true
-    ports:
-      - "3000:3000"
     volumes:
       - /mnt/pangaea/grafana:/var/lib/grafana
 
@@ -109,3 +106,31 @@ services:
       - TZ=America/New_York
     volumes:
       - ./ddclient.conf:/config/ddclient.conf
+
+  haproxy:
+    image: haproxytech/haproxy-alpine-quic:3.2
+    container_name: haproxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /mnt/pangaea/haproxy/certs:/certs
+
+  certbot:
+    image: ghcr.io/richiesams/certbot_cron:v0.1.0
+    container_name: certbot
+    restart: unless-stopped
+    volumes:
+      - ./certbot-crontab:/certbot-crontab
+      - ./reload-haproxy.sh:/reload-haproxy.sh
+      - ./renew-certs.sh:/renew-certs.sh
+      - /mnt/pangaea/certbot/porkbun.ini:/conf/porkbun.ini:ro
+      - /mnt/pangaea/certbot/letsencrypt:/etc/letsencrypt
+      - /mnt/pangaea/certbot/logs:/var/log/letsencrypt
+      - /mnt/pangaea/haproxy/certs:/certs
+      # So we can reload haproxy
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - /certbot-crontab
