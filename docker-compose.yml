@@ -94,6 +94,19 @@ services:
     volumes:
       - ./alertmanager.yaml:/etc/alertmanager/alertmanager.yml
 
+  vmalert:
+    image: victoriametrics/vmalert:v1.128.0
+    container_name: vmalert
+    restart: unless-stopped
+    command:
+      - -rule=/alert-rules.yaml
+      - -datasource.url=http://victoriametrics:8428
+      - -notifier.url=http://alertmanager:9093
+      - -remoteWrite.url=http://victoriametrics:8428
+      - -remoteRead.url=http://victoriametrics:8428
+    volumes:
+      - ./alert-rules.yaml:/alert-rules.yaml
+
   nebula-sync:
     image: ghcr.io/lovelaze/nebula-sync:latest
     container_name: nebula-sync
