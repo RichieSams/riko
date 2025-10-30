@@ -9,3 +9,8 @@ scrape_configs:
     static_configs:
       - targets:
           - http://riko.astleymanor.net:9100
+  - job_name: nodes_smartctl
+    scrape_interval: 60s
+    static_configs:
+      - targets:
+          - http://riko.astleymanor.net:9633
