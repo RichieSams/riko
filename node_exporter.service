@@ -11,7 +11,7 @@ StartLimitBurst=5
 Type=exec
 User=root
 Environment="HOME=/root"
-ExecStart=/usr/local/bin/node_exporter --web.listen-address="127.0.0.1:9100" --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)
+ExecStart=/usr/local/bin/node_exporter --web.listen-address=":9100" --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)
 
 # Auto-restart
 Restart=on-failure

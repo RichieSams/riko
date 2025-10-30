@@ -11,7 +11,7 @@ StartLimitBurst=5
 Type=exec
 User=root
 Environment="HOME=/root"
-ExecStart=/usr/local/bin/smartctl_exporter --web.listen-address="127.0.0.1:9633"
+ExecStart=/usr/local/bin/smartctl_exporter --web.listen-address=":9633"
 
 # Auto-restart
 Restart=on-failure
