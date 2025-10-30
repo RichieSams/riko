@@ -1,0 +1,22 @@
+global:
+  resolve_timeout: "5m"
+
+route:
+  receiver: pushover
+  group_by: [alertname]
+  group_wait: "30s"
+  group_interval: "5m"
+  repeat_interval: "4h"
+
+receivers:
+  - name: pushover
+    pushover_configs:
+      - title: '{{ template "pushover.default.title" . }}'
+        message: '{{ template "pushover.default.message" . }}'
+        url: '{{ template "pushover.default.url" . }}'
+        priority: '{{ if eq .Status "firing" }2{{ else }}0{{ end }}}'
+        send_resolved: true
+        retry: "1m"
+        expire: "1h"
+        user_key_file: /mnt/pangaea/alertmanager/secrets/pushover.key
+        token_file: /mnt/pangaea/alertmanager/secrets/pushover.token
