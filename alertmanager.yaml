@@ -14,7 +14,7 @@ receivers:
       - title: '{{ template "pushover.default.title" . }}'
         message: '{{ template "pushover.default.message" . }}'
         url: '{{ template "pushover.default.url" . }}'
-        priority: '{{ if eq .Status "firing" }2{{ else }}0{{ end }}}'
+        priority: '{{ with index .Alerts 0 }}{{ if eq .Labels.severity "critical" }}2{{ else if eq .Labels.severity "warning" }}0{{ else if eq .Labels.severity "info" }}-1{{ else }}0{{ end }}{{ end }}'
         send_resolved: true
         retry: "1m"
         expire: "1h"
