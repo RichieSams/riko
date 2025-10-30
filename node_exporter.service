@@ -1,0 +1,22 @@
+[Unit]
+Description=Node Exporter
+Requires=network-online.target
+After=network-online.target
+
+# Prevent auto-restart flapping
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Type=exec
+User=root
+Environment="HOME=/root"
+ExecStart=/usr/local/bin/node_exporter --web.listen-address="127.0.0.1:9100" --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)
+
+# Auto-restart
+Restart=on-failure
+# With a cooldown period
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target default.target

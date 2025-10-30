@@ -4,3 +4,8 @@ scrape_configs:
     static_configs:
       - targets:
           - http://speed_test_exporter:8080
+  - job_name: nodes
+    scrape_interval: 60s
+    static_configs:
+      - targets:
+          - http://riko.astleymanor.net:9100
