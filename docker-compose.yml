@@ -93,6 +93,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./alertmanager.yaml:/etc/alertmanager/alertmanager.yml
+      - /mnt/pangaea/alertmanager/secrets:/secrets
 
   vmalert:
     image: victoriametrics/vmalert:v1.128.0

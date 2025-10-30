@@ -18,5 +18,5 @@ receivers:
         send_resolved: true
         retry: "1m"
         expire: "1h"
-        user_key_file: /mnt/pangaea/alertmanager/secrets/pushover.key
-        token_file: /mnt/pangaea/alertmanager/secrets/pushover.token
+        user_key_file: /secrets/pushover.key
+        token_file: /secrets/pushover.token
