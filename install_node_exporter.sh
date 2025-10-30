@@ -6,7 +6,7 @@ tar xvfz node_exporter-*.*-amd64.tar.gz
 sudo chown root: node_exporter-*.*-amd64/node_exporter
 sudo mv node_exporter-*.*-amd64/node_exporter /usr/local/bin/
 
-sudo rm -rf node_exporter-*.*-amd64/node_exporter*
+sudo rm -rf node_exporter-*.*-amd64*
 
 sudo cp node_exporter.service /etc/systemd/system/node_exporter.service
 sudo chown root: /etc/systemd/system/node_exporter.service
