@@ -1,6 +1,6 @@
 scrape_configs:
   - job_name: speed-test-exporter
-    scrape_interval: 30s
+    scrape_interval: 15m
     static_configs:
       - targets:
           - http://speed_test_exporter:8080
