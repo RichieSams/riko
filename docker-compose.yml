@@ -52,8 +52,6 @@ services:
     image: victoriametrics/victoria-metrics:v1.101.0
     container_name: victoriametrics
     restart: unless-stopped
-    ports:
-      - 8428:8428
     volumes:
       - /mnt/pangaea/vmdata:/storage
     command:
@@ -62,15 +60,28 @@ services:
       - "--retentionPeriod=3y"
       - "--dedup.minScrapeInterval=1s"
 
-  iotawatt_upload_proxy:
-    image: ghcr.io/richiesams/iotawatt_upload_proxy:v0.2.0
-    container_name: iotawatt_upload_proxy
-    restart: unless-stopped
+  influxdb:
+    image: influxdb:2
+    container_name: influxdb
     ports:
-      - 8888:8888
+      - 8086:8086
     environment:
-      IUP_UPSTREAM: http://192.168.68.109:8428
-      IUP_LOG_LEVEL: info
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME_FILE: /run/secrets/influxdb-admin-username
+      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/influxdb-admin-password
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/influxdb-admin-token
+      DOCKER_INFLUXDB_INIT_ORG: docs
+      DOCKER_INFLUXDB_INIT_BUCKET: home
+    secrets:
+      - influxdb-admin-username
+      - influxdb-admin-password
+      - influxdb-admin-token
+    volumes:
+      - /mnt/pangaea/influxdb/data:/var/lib/influxdb2
+      - /mnt/pangaea/influxdb/config:/etc/influxdb2
+      - /mnt/pangaea/influxdb/admin-username:/run/secrets/influxdb-admin-username:ro
+      - /mnt/pangaea/influxdb/admin-password:/run/secrets/influxdb-admin-password:ro
+      - /mnt/pangaea/influxdb/admin-token:/run/secrets/influxdb-admin-token:ro
 
   speed_test_exporter:
     image: ghcr.io/richiesams/speedtest-exporter:v0.1.0
