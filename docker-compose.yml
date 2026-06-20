@@ -72,21 +72,12 @@ services:
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/influxdb-admin-token
       DOCKER_INFLUXDB_INIT_ORG: docs
       DOCKER_INFLUXDB_INIT_BUCKET: home
-    secrets:
-      - influxdb-admin-username
-      - influxdb-admin-password
-      - influxdb-admin-token
     volumes:
       - /mnt/pangaea/influxdb/data:/var/lib/influxdb2
       - /mnt/pangaea/influxdb/config:/etc/influxdb2
       - /mnt/pangaea/influxdb/admin-username:/run/secrets/influxdb-admin-username:ro
       - /mnt/pangaea/influxdb/admin-password:/run/secrets/influxdb-admin-password:ro
       - /mnt/pangaea/influxdb/admin-token:/run/secrets/influxdb-admin-token:ro
-
-  speed_test_exporter:
-    image: ghcr.io/richiesams/speedtest-exporter:v0.1.0
-    container_name: speed_test_exporter
-    restart: unless-stopped
 
   vmagent:
     image: victoriametrics/vmagent:v1.105.0
